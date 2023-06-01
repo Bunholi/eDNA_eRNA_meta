@@ -1,35 +1,43 @@
+###################################
+#### Figure 4 - Raincloud plot ####
+###################################
+
+##Required packages
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
 library(ggdist)
 library(gghalves)
 
-#### General data setup ####
+##General data setup
+setwd("/Users/ingridbunholi/Desktop/eDNA_RNA_meta/metadata") #working directory
+data<- read.csv("eDNA_RNA_meta_0515.csv") #metadata
 
-data<- read.csv("eDNA_RNA_meta_0515.csv")
+##Rain cloud plot - volume
 
-##Rain cloud plot - volume - 4##
-
-pal <- c("grey", "#159090", "#159090", "#159090", "#159090", "#159090", "#159090")
-
+#separating papers with more than 1 type (one each row)
 df<- data%>%
   mutate(DNA_RNA = strsplit(as.character(DNA_RNA), ", ")) %>%
   unnest(DNA_RNA)
 unique(df$DNA_RNA) 
 
+#Filtering only the 6 most frequent organisms and counting
 data_vol<- df%>%
   select("volume_l", "type_organism", "DNA_RNA")%>%
-  filter(type_organism %in% c("Fish", "Not target", "Bacteria","Invertebrate", "Phytoplankton", "Protistan"))%>%
+  filter(type_organism %in% c("Fish", "Non target", "Bacteria","Invertebrate", "Phytoplankton", "Protist"))%>%
   drop_na()%>%
   mutate(volume_l=round(as.numeric(volume_l), digits=2))%>%
   subset(volume_l!=92.50)
 
+#Transforming RNA occurrences into category
 data_vol_2<- data_vol %>%
   mutate(type_organism = ifelse(DNA_RNA == "RNA", "RNA", type_organism))
 
+#Setting parameters
+data_vol_2$type_organism<-factor(data_vol_2$type_organism, levels=c("RNA", "Non target", "Fish", "Bacteria", "Invertebrate", "Phytoplankton", "Protist"))
+pal <- c("#9862A3", "#3F85DF", "#3F85DF", "#3F85DF", "#3F85DF", "#3F85DF", "#3F85DF")
 
-data_vol_2$type_organism<-factor(data_vol_2$type_organism, levels=c("RNA", "Not target", "Fish", "Bacteria", "Invertebrate", "Phytoplankton", "Protistan"))
-
+#Generating rain cloud plot
 vol.org<-data_vol_2 %>%
   group_by(type_organism) %>%
   ggplot(aes(x=type_organism, y=volume_l, fill=type_organism)) +

@@ -1,18 +1,28 @@
+######################################################
+#### Figure 2 - Bubble plot per continent and map ####
+######################################################
+
+#Bubble plot continents and map per country
+
+##Required packages
+
 library(sf)
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
+library(packcircles)
 library(maps)
 library(treemap)
 library(patchwork)
 library(RColorBrewer)
 
-#### General data setup ####
-data<- read.csv("eDNA_RNA_meta_0515.csv")
+##General data setup
+setwd("/Users/ingridbunholi/Desktop/eDNA_RNA_meta/metadata") #working directory
+data<- read.csv("eDNA_RNA_meta_0515.csv") #metadata
 
 #Bubble plot - 2a
 
-#Separating DNA and RNA studies
+#Separating papers with more than 1 type (one each row)
 data<- data%>%
   mutate(DNA_RNA = strsplit(as.character(DNA_RNA), ", ")) %>%
   unnest(DNA_RNA)
@@ -25,7 +35,7 @@ data_bubble<- data%>%
   drop_na(continent)
 unique(data_bubble$continent)
 
-#Counting papers
+#Counting papers per continent
 map_cont<- data_bubble %>%
   group_by(continent) %>%
   summarise(count = n())
@@ -38,19 +48,21 @@ data_all <- cbind(map_cont, packing)
 
 dat.gg <- circleLayoutVertices(packing, npoints=50)
 
-
-# Make the plot
-fig2a<-ggplot() + 
+#Making the plot
+color<- c("grey", "grey", "grey", "grey", "grey", "grey", "grey")
+bubble_plot<-ggplot() + 
   geom_polygon(data = dat.gg, aes(x, y, group = id, fill=as.factor(id)), alpha = 0.6) +
   geom_text(data = data_all, aes(x, y, size=count, label = continent)) +
-  scale_fill_manual(values= mako(nrow(data_all)))+
+  scale_fill_manual(values=color)+
   theme_void() + 
   theme(legend.position="none") +
   coord_equal()
 
-ggsave('Fig2a.pdf', fig2a,
+#Saving plot
+ggsave('Fig2a.pdf', bubble_plot,
        width = 21, height = 13, units = c('cm'),
        dpi = 600)
+#Small bubbles with eDNA and eRNA information were added manually in the illustrator
 
 
 #Map - 2b
@@ -70,7 +82,6 @@ clean<- theme(
 world_map<- map_data("world") #including Antarctica
 
 #Separating papers with more than 1 country (one each row)
-unique(data$country)
 data_country<- data%>%
   mutate(country = strsplit(as.character(country), ", ")) %>%
   unnest(country)
@@ -82,8 +93,7 @@ map_country<- data_country %>%
   summarise(count = n())
 
 #Plotting map by country
-
-map_1a<-ggplot(map_country) +
+map_2b<-ggplot(map_country) +
   geom_map(
     dat = world_map, map = world_map, aes(map_id = region),
     fill = "white", color = "grey", size = 0.25) +
@@ -94,11 +104,10 @@ map_1a<-ggplot(map_country) +
         legend.text = element_text(size=6),
         legend.position=c(.14,0.4),
         legend.key.size=unit(0.3, 'cm'),
-        plot.margin = unit(c(0.5, 0, -0.3, -0.2), 'cm'))+
-  ggtitle("a)") +
+        plot.margin = unit(c(0.5, 0, -0.3, -0.2), 'cm'))
   clean
 
-# save map per country
-ggsave('map_1a.pdf', map_1a,
+#Saving plot
+ggsave('map_2b.pdf', map_2b,
        width = 21, height = 13, units = c('cm'),
        dpi = 600)
