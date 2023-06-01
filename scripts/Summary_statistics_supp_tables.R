@@ -1,9 +1,17 @@
+############################
+#### Summary statistics ####
+############################
+
+#Required packages
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
 library(ggpubr)
 
-data<- read.csv("eDNA_RNA_meta_0515.csv")
+##General data setup
+setwd("/Users/ingridbunholi/Desktop/eDNA_RNA_meta/metadata") #working directory
+data<- read.csv("eDNA_RNA_meta_0515.csv") #metadata
+
 
 #Summary statistics - supplementary tables
 
