@@ -26,7 +26,7 @@ The metadata used to generate all figures and statistical metrics is eDNA_RNA_me
 
 ### Scripts
 
-All the figures were generated using functions from packages described below. 
+All the figures were generated using functions from packages described below. Additional graphical features were added in illustrator.
 
 
 ## METHODOLOGICAL INFORMATION
@@ -35,6 +35,6 @@ All the figures were generated using functions from packages described below.
 
 *Methods for processing the data:* the metadata was manually collected after deciding the target variables. Although we specified the search only to marine and freswater as well as community and assemblages, we noticed that the search still included papers not relevant for this review. Therefore, we did a manual inspection removing studies outside the scope of the review, such as eDNA collected from sources other than water, invasive species detection, species-specific studies, and reviews. For studies with multiple techniques, we treated each independently. We also standardized some variables across studies. For instance, for filter pore size we created three categories: less than or equal to 0.22 µm, greater than 0.22 and less than or equal to 1 µm, and greater than 1 µm. For multiple volumes of water collected, we calculated the mean. To facilitate some analyses, we transformed some categorical variables into binary data.
 
-*Instrument- or software-specific information needed to interpret the data:* we used the statistical software R version 4.2.1 for all data analysis and visualization. Necessary packages to run the scripts: tidyverse, ggplot2, dplyr, viridis, packcircles, maps, treemap, RColorBrewer, patchwork, ggdist, gghalves, fmsb, scales, limma. 
+*Instrument- or software-specific information needed to interpret the data:* we used the statistical software R version 4.2.1 for all data analysis and visualization. Necessary packages to run the scripts: tidyverse, ggplot2, dplyr, viridis, packcircles, maps, treemap, RColorBrewer, patchwork, ggdist, gghalves, fmsb, scales, eulerr. 
 
 Please contact me for any issue or question (ingridbunholi@gmail.com)
