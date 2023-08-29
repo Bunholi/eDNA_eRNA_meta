@@ -9,8 +9,8 @@ library(dplyr)
 library(patchwork)
 
 ##General data setup
-setwd("/Users/ingridbunholi/Desktop/eDNA_RNA_meta/metadata") #working directory
-data<- read.csv("eDNA_RNA_meta_0515.csv") #metadata
+setwd("User/workingdirectory") #your working directory
+data<- read.csv("eDNA_eRNA_metadata.csv") #metadata
 
 #Half moon plots - figure 3a
 

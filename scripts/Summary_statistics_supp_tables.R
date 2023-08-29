@@ -9,8 +9,8 @@ library(ggplot2)
 library(ggpubr)
 
 ##General data setup
-setwd("/Users/ingridbunholi/Desktop/eDNA_RNA_meta/metadata") #working directory
-data<- read.csv("eDNA_RNA_meta_0515.csv") #metadata
+setwd("User/workingdirectory") #your working directory
+data<- read.csv("eDNA_eRNA_metadata.csv") #metadata
 
 
 #Summary statistics - supplementary tables
@@ -243,10 +243,10 @@ vol_dna<-data_dna %>%
 
 #Volume per organism
 
-data_dna<- data_dna%>%
+data_dna<- data_y%>%
   mutate(type_organism = strsplit(as.character(type_organism), ", ")) %>%
   unnest(type_organism)
-unique(data_org$type_organism)
+unique(data_dna$type_organism)
 
 vol_dna_org<-data_dna %>%
   group_by(type_organism)%>%
@@ -259,4 +259,3 @@ vol_dna_org<-data_dna %>%
     max = max(volume_l, na.rm = TRUE),
     min = min(volume_l, na.rm = TRUE)
   )
-

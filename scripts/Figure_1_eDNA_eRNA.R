@@ -10,8 +10,8 @@ library(dplyr)
 library(ggplot2)
 
 ##General data setup
-setwd("/Users/ingridbunholi/Desktop/eDNA_RNA_meta/metadata") #working directory
-data<- read.csv("eDNA_RNA_meta_0515.csv") #metadata
+setwd("User/workingdirectory") #your working directory
+data<- read.csv("eDNA_eRNA_metadata.csv") #metadata
 
 ##Setting time series graphical elements
 set<- theme(axis.text.x=element_text(angle=45,vjust = 0.9, hjust=1, size = 11),
